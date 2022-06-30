@@ -5,36 +5,40 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
+        // classpath 'com.android.tools.build:gradle:3.6.0'
     }
 }
 
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30 // 29
+//     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 29
+        minSdkVersion 21 // 16
+        targetSdkVersion 30 // 29
         versionCode 2
         versionName "1.0.1"
     }
     lintOptions {
         abortOnError false
     }
-     sourceSets {
-    main {
-          aidl.srcDirs = ['src/main/java']
-      }
-  }
+//      sourceSets {
+//     main {
+//           aidl.srcDirs = ['src/main/java']
+//       }
+//   }
 }
 
 repositories {
+    google()
+    jcenter()
     mavenCentral()
 }
 
 dependencies {
     implementation 'com.facebook.react:react-native:+'
-    implementation "com.google.zxing:core:3.4.1"
+    implementation "com.google.zxing:core:3.3.0" // 3.4.1
+    implementation 'com.sunmi:printerlibrary:1.0.18' // 1.0.7
 }
