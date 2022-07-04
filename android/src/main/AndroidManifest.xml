@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.sunmi.v2.printer">
+  <uses-permission android:name="com.sunmi.perm.PRINTER" />
   <!-- To support printerlibrary on Android R -->
   <queries>
     <package android:name="woyou.aidlservice.jiuiv5"/>
   </queries>
-
 </manifest>
