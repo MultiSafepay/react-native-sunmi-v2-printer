@@ -54,6 +54,8 @@ public class SunmiPrintHelper {
     private InnerPrinterCallback innerPrinterCallback = new InnerPrinterCallback() {
         @Override
         protected void onConnected(SunmiPrinterService service) {
+            Log.i("SDK-DEBUG", "Sunmi Printer connected"+ );
+
             sunmiPrinterService = service;
             checkSunmiPrinterService(service);
         }
@@ -104,7 +106,9 @@ public class SunmiPrintHelper {
         try {
             ret = InnerPrinterManager.getInstance().hasPrinter(service);
         } catch (InnerPrinterException e) {
+            Log.e("SDK-DEBUG", "Has no Sunmi Printer" );
             e.printStackTrace();
+
         }
         sunmiPrinter = ret?FoundSunmiPrinter:NoSunmiPrinter;
     }
@@ -117,16 +121,23 @@ public class SunmiPrintHelper {
      */
     private void handleRemoteException(RemoteException e){
         //TODO process when get one exception
+        throw e
+    }
+
+    private void handleNoService(RemoteException e) throws Exception {
+        // TODO Service disconnection processing
+        if(sunmiPrinterService == null){
+            Log.e("SDK-DEBUG", "Sunmi Printer service is not initialized");
+            throw new Exception("No sunmi printer service");
+            return;
+        }
     }
 
     /**
      * send esc cmd
      */
     public void sendRawData(byte[] data) {
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
         try {
             sunmiPrinterService.sendRAWData(data, null);
         } catch (RemoteException e) {
@@ -138,10 +149,7 @@ public class SunmiPrintHelper {
      *  Printer cuts paper and throws exception on machines without a cutter
      */
     public void cutpaper(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
         try {
             sunmiPrinterService.cutPaper(null);
         } catch (RemoteException e) {
@@ -154,11 +162,7 @@ public class SunmiPrintHelper {
      *  All style settings will be restored to default
      */
     public void initPrinter(){
-        if(sunmiPrinterService == null){
-            Log.e("SDK-DEBUG", "Sunmi Printer service is not initialized");
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
         try {
             sunmiPrinterService.printerInit(null);
             Log.e("SDK-DEBUG", "Sunmi Printer is initialized");
@@ -173,10 +177,7 @@ public class SunmiPrintHelper {
      *  Not disabled when line spacing is set to 0
      */
     public void print3Line(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             sunmiPrinterService.lineWrap(3, null);
@@ -189,10 +190,7 @@ public class SunmiPrintHelper {
      * Get printer serial number
      */
     public String getPrinterSerialNo(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return "";
-        }
+        handleNoService()
         try {
             return sunmiPrinterService.getPrinterSerialNo();
         } catch (RemoteException e) {
@@ -205,10 +203,7 @@ public class SunmiPrintHelper {
      * Get device model
      */
     public String getDeviceModel(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return "";
-        }
+        handleNoService()
         try {
             return sunmiPrinterService.getPrinterModal();
         } catch (RemoteException e) {
@@ -221,10 +216,7 @@ public class SunmiPrintHelper {
      * Get firmware version
      */
     public String getPrinterVersion(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return "";
-        }
+        handleNoService()
         try {
             return sunmiPrinterService.getPrinterVersion();
         } catch (RemoteException e) {
@@ -237,10 +229,7 @@ public class SunmiPrintHelper {
      * Get paper specifications
      */
     public String getPrinterPaper(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return "";
-        }
+        handleNoService()
         try {
             return sunmiPrinterService.getPrinterPaper() == 1?"58mm":"80mm";
         } catch (RemoteException e) {
@@ -253,10 +242,7 @@ public class SunmiPrintHelper {
      * Get paper specifications
      */
     public void getPrinterHead(InnerResultCallback callbcak){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
         try {
              sunmiPrinterService.getPrinterFactory(callbcak);
         } catch (RemoteException e) {
@@ -269,10 +255,7 @@ public class SunmiPrintHelper {
      * Get printing distance through interface callback since 1.0.8(printerlibrary)
      */
     public void getPrinterDistance(InnerResultCallback callback){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
         try {
             sunmiPrinterService.getPrintedLength(callback);
         } catch (RemoteException e) {
@@ -284,10 +267,7 @@ public class SunmiPrintHelper {
      * Set printer alignment
      */
     public void setAlign(int align){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
         try {
             sunmiPrinterService.setAlignment(align, null);
         } catch (RemoteException e) {
@@ -301,10 +281,7 @@ public class SunmiPrintHelper {
      *  But if the Api does not support it, it will be replaced by printing three lines
      */
     public void feedPaper(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             sunmiPrinterService.autoOutPaper(null);
@@ -324,10 +301,7 @@ public class SunmiPrintHelper {
      */
     public void printText(String content, float size, boolean isBold, boolean isUnderLine,
                           String typeface) {
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             try {
@@ -361,10 +335,7 @@ public class SunmiPrintHelper {
      * print Bar Code
      */
     public void printBarCode(String data, int symbology, int height, int width, int textposition) {
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             sunmiPrinterService.printBarCode(data, symbology, height, width, textposition, null);
@@ -377,10 +348,7 @@ public class SunmiPrintHelper {
      * print Qr Code
      */
     public void printQr(String data, int modulesize, int errorlevel) {
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             sunmiPrinterService.printQRCode(data, modulesize, errorlevel, null);
@@ -393,10 +361,7 @@ public class SunmiPrintHelper {
      * Print a row of a table
      */
     public void printTable(String[] txts, int[] width, int[] align) {
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             sunmiPrinterService.printColumnsString(txts, width, align, null);
@@ -406,10 +371,7 @@ public class SunmiPrintHelper {
     }
 
     public void printBitmap(Bitmap bitmap) {
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             sunmiPrinterService.printBitmap(bitmap, null);
@@ -423,10 +385,7 @@ public class SunmiPrintHelper {
      * Gets whether the current printer is in black mark mode
      */
     public boolean isBlackLabelMode(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return false;
-        }
+        handleNoService()
         try {
             return sunmiPrinterService.getPrinterMode() == 1;
         } catch (RemoteException e) {
@@ -438,10 +397,7 @@ public class SunmiPrintHelper {
      * Gets whether the current printer is in label-printing mode
      */
     public boolean isLabelMode(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return false;
-        }
+        handleNoService()
         try {
             return sunmiPrinterService.getPrinterMode() == 2;
         } catch (RemoteException e) {
@@ -457,10 +413,7 @@ public class SunmiPrintHelper {
      *  Reference to https://docs.sunmi.com/general-function-modules/external-device-debug/cash-box-driver/}
      */
     public void openCashBox(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             sunmiPrinterService.openDrawer(null);
@@ -477,10 +430,7 @@ public class SunmiPrintHelper {
      *             4 —— Clear screen contents
      */
     public void controlLcd(int flag){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             sunmiPrinterService.sendLCDCommand(flag);
@@ -495,10 +445,7 @@ public class SunmiPrintHelper {
      * Since the screen pixel height is 40, the font should not exceed 40
      */
     public void sendTextToLcd(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             sunmiPrinterService.sendLCDFillString("SUNMI", 16, true, new InnerLcdCallback() {
@@ -517,10 +464,7 @@ public class SunmiPrintHelper {
      * Display two lines and one empty line in the middle
      */
     public void sendTextsToLcd(){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             String[] texts = {"SUNMI", null, "SUNMI"};
@@ -541,10 +485,7 @@ public class SunmiPrintHelper {
      * Display one 128x40 pixels and opaque picture
      */
     public void sendPicToLcd(Bitmap pic){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return;
-        }
+        handleNoService()
 
         try {
             sunmiPrinterService.sendLCDBitmap(pic, new InnerLcdCallback() {
@@ -564,10 +505,7 @@ public class SunmiPrintHelper {
      * printing
      */
     public void showPrinterStatus(Context context){
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return ;
-        }
+        handleNoService()
         String result = "Interface is too low to implement interface";
         try {
             int res = sunmiPrinterService.updatePrinterState();
@@ -619,10 +557,7 @@ public class SunmiPrintHelper {
      * 打印单张标签后为了方便用户撕纸可调用labelOutput,将标签纸推出纸舱口
      */
     public void printOneLabel() {
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return ;
-        }
+        handleNoService()
         try {
             sunmiPrinterService.labelLocate();
             printLabelContent();
@@ -640,10 +575,7 @@ public class SunmiPrintHelper {
      * 打印多张标签后根据需求选择是否推出标签纸到纸舱口
      */
     public void printMultiLabel(int num) {
-        if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
-            return ;
-        }
+        handleNoService()
         try {
             for(int i = 0; i < num; i++){
                 sunmiPrinterService.labelLocate();
