@@ -167,6 +167,7 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
         try {
             final int size = text.length();
             SunmiPrintHelper.getInstance().printText(text, size, false, false, null);    
+            promise.resolve(null);
         } catch (Exception e) {
             e.printStackTrace();
             promise.reject("0", e.getMessage());

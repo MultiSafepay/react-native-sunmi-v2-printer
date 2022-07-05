@@ -61,17 +61,20 @@
 // };
 
 export declare const SunmiV2Printer: {
-  printerInit: () => Promise<void>;
+  printerInit: () => Promise<null>;
   printBitmap: (
     base64String: string,
     width: number,
     height: number,
     orientation: 0 | 1 | 2
-  ) => Promise<void>;
+  ) => Promise<null>;
   getPrinterPaperSize: () => Promise<"58mm" | "80mm">;
   getHasPrinter: () => Promise<boolean>;
-  printOriginalText: (text: string, typeface: string) => Promise<void>;
-  clearBuffer: () => Promise<void>;
-  openCashDrawer: () => Promise<void>;
-  cutPaper: () => Promise<void>;
+  printOriginalText: (text: string, typeface: string) => Promise<null>;
+  clearBuffer: () => Promise<null>;
+  openCashDrawer: () => Promise<null>;
+  cutPaper: () => Promise<null>;
+  getPrinterVersion: () => Promise<string>;
+  sendRAWData: (base64EncriptedData: string) => Promise<null>;
+  setAlignment: (alignment: number) => Promise<null>;
 };
