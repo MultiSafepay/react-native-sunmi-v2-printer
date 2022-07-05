@@ -113,6 +113,16 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void getHasPrinter(final Promise p) {
+        try {
+            p.resolve(SunmiPrintHelper.getInstance().checkSunmiPrinterService() === SunmiPrintHelper.FoundSunmiPrinter);
+        } catch (Exception e) {
+            Log.i(TAG, "ERROR: " + e.getMessage());
+            p.reject("0", e.getMessage());
+        }
+    }
+
+    @ReactMethod
     public void sendRAWData(String base64EncriptedData, final Promise promise) {
         try {
             final byte[] data = Base64.decode(base64EncriptedData, Base64.DEFAULT);

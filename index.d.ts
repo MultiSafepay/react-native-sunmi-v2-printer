@@ -60,16 +60,18 @@
 //   cutPaper: (callBack: () => void) => void;
 // };
 
-declare const SunmiV2Printer: {
-  printerInit: () => void;
+export declare const SunmiV2Printer: {
+  printerInit: () => Promise<void>;
   printBitmap: (
     base64String: string,
     width: number,
     height: number,
     orientation: 0 | 1 | 2
-  ) => void;
-  printOriginalText: (text: string, typeface: string) => void;
-  clearBuffer: () => void;
-  openCashDrawer: () => void;
-  cutPaper: () => void;
+  ) => Promise<void>;
+  getPrinterPaperSize: () => Promise<"58mm" | "80mm">;
+  getHasPrinter: () => Promise<boolean>;
+  printOriginalText: (text: string, typeface: string) => Promise<void>;
+  clearBuffer: () => Promise<void>;
+  openCashDrawer: () => Promise<void>;
+  cutPaper: () => Promise<void>;
 };
