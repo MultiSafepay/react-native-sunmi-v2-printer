@@ -65,8 +65,7 @@ export declare const SunmiV2Printer: {
   printBitmap: (
     base64String: string,
     width: number,
-    height: number,
-    orientation: 0 | 1 | 2
+    height: number
   ) => Promise<null>;
   getPrinterPaperSize: () => Promise<"58mm" | "80mm">;
   getHasPrinter: () => Promise<boolean>;
