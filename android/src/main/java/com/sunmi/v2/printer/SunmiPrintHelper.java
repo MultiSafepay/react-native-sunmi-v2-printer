@@ -2,13 +2,11 @@ package com.sunmi.v2.printer;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
 
-import com.sunmi.peripheral.printer.ExceptionConst;
 import com.sunmi.peripheral.printer.InnerLcdCallback;
 import com.sunmi.peripheral.printer.InnerPrinterCallback;
 import com.sunmi.peripheral.printer.InnerPrinterException;
@@ -54,7 +52,7 @@ public class SunmiPrintHelper {
     private InnerPrinterCallback innerPrinterCallback = new InnerPrinterCallback() {
         @Override
         protected void onConnected(SunmiPrinterService service) {
-            Log.i("SDK-DEBUG", "Sunmi Printer connected"+ );
+            Log.i("SDK-DEBUG", "Sunmi Printer connected");
 
             sunmiPrinterService = service;
             checkSunmiPrinterService(service);
@@ -113,62 +111,42 @@ public class SunmiPrintHelper {
         sunmiPrinter = ret?FoundSunmiPrinter:NoSunmiPrinter;
     }
 
-    /**
-     *  Some conditions can cause interface calls to fail
-     *  For example: the version is too low、device does not support
-     *  You can see {@link ExceptionConst}
-     *  So you have to handle these exceptions
-     */
-    private void handleRemoteException(RemoteException e){
-        //TODO process when get one exception
-        throw e
-    }
-
-    private void handleNoService(RemoteException e) throws Exception {
+    private void checkPrinterServiceAvailability() throws Exception {
         // TODO Service disconnection processing
         if(sunmiPrinterService == null){
             Log.e("SDK-DEBUG", "Sunmi Printer service is not initialized");
             throw new Exception("No sunmi printer service");
-            return;
         }
     }
 
     /**
      * send esc cmd
      */
-    public void sendRawData(byte[] data) {
-        handleNoService()
-        try {
-            sunmiPrinterService.sendRAWData(data, null);
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-        }
+    public void sendRawData(byte[] data) throws Exception {
+        checkPrinterServiceAvailability();
+        sunmiPrinterService.sendRAWData(data, null);
     }
 
     /**
      *  Printer cuts paper and throws exception on machines without a cutter
      */
-    public void cutpaper(){
-        handleNoService()
-        try {
-            sunmiPrinterService.cutPaper(null);
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-        }
+    public void cutpaper() throws Exception {
+        checkPrinterServiceAvailability();
+        sunmiPrinterService.cutPaper(null);
     }
 
     /**
      *  Initialize the printer
      *  All style settings will be restored to default
      */
-    public void initPrinter(){
-        handleNoService()
+    public void initPrinter() throws Exception {
         try {
+            checkPrinterServiceAvailability();
             sunmiPrinterService.printerInit(null);
             Log.e("SDK-DEBUG", "Sunmi Printer is initialized");
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             Log.e("SDK-DEBUG", "Exception at initPrinter");
-            handleRemoteException(e);
+            throw e;
         }
     }
 
@@ -176,103 +154,66 @@ public class SunmiPrintHelper {
      *  paper feed three lines
      *  Not disabled when line spacing is set to 0
      */
-    public void print3Line(){
-        handleNoService()
-
-        try {
-            sunmiPrinterService.lineWrap(3, null);
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-        }
+    public void print3Line() throws Exception {
+        checkPrinterServiceAvailability();
+        sunmiPrinterService.lineWrap(3, null);
     }
 
     /**
      * Get printer serial number
      */
-    public String getPrinterSerialNo(){
-        handleNoService()
-        try {
-            return sunmiPrinterService.getPrinterSerialNo();
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-            return "";
-        }
+    public String getPrinterSerialNo() throws Exception {
+        checkPrinterServiceAvailability();
+        return sunmiPrinterService.getPrinterSerialNo();
     }
 
     /**
      * Get device model
      */
-    public String getDeviceModel(){
-        handleNoService()
-        try {
-            return sunmiPrinterService.getPrinterModal();
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-            return "";
-        }
+    public String getDeviceModel() throws Exception {
+        checkPrinterServiceAvailability();
+        return sunmiPrinterService.getPrinterModal();
     }
 
     /**
      * Get firmware version
      */
-    public String getPrinterVersion(){
-        handleNoService()
-        try {
-            return sunmiPrinterService.getPrinterVersion();
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-            return "";
-        }
+    public String getPrinterVersion() throws Exception {
+        checkPrinterServiceAvailability();
+        return sunmiPrinterService.getPrinterVersion();
     }
 
     /**
      * Get paper specifications
      */
-    public String getPrinterPaper(){
-        handleNoService()
-        try {
-            return sunmiPrinterService.getPrinterPaper() == 1?"58mm":"80mm";
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-            return "";
-        }
+    public String getPrinterPaper() throws Exception {
+        checkPrinterServiceAvailability();
+        return sunmiPrinterService.getPrinterPaper() == 1? "58mm" : "80mm";
     }
 
     /**
      * Get paper specifications
      */
-    public void getPrinterHead(InnerResultCallback callbcak){
-        handleNoService()
-        try {
-             sunmiPrinterService.getPrinterFactory(callbcak);
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-        }
+    public void getPrinterHead(InnerResultCallback callback) throws Exception {
+        checkPrinterServiceAvailability();
+        sunmiPrinterService.getPrinterFactory(callback);
     }
 
     /**
      * Get printing distance since boot
      * Get printing distance through interface callback since 1.0.8(printerlibrary)
      */
-    public void getPrinterDistance(InnerResultCallback callback){
-        handleNoService()
-        try {
-            sunmiPrinterService.getPrintedLength(callback);
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-        }
+    public void getPrinterDistance(InnerResultCallback callback) throws Exception {
+        checkPrinterServiceAvailability();
+        sunmiPrinterService.getPrintedLength(callback);
     }
 
     /**
      * Set printer alignment
      */
-    public void setAlign(int align){
-        handleNoService()
-        try {
-            sunmiPrinterService.setAlignment(align, null);
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-        }
+    public void setAlign(int align) throws Exception {
+        checkPrinterServiceAvailability();
+        sunmiPrinterService.setAlignment(align, null);
     }
 
     /**
@@ -280,14 +221,9 @@ public class SunmiPrintHelper {
      *  the paper needs to be fed out automatically
      *  But if the Api does not support it, it will be replaced by printing three lines
      */
-    public void feedPaper(){
-        handleNoService()
-
-        try {
-            sunmiPrinterService.autoOutPaper(null);
-        } catch (RemoteException e) {
-            print3Line();
-        }
+    public void feedPaper() throws Exception {
+        checkPrinterServiceAvailability();
+        sunmiPrinterService.autoOutPaper(null);
     }
 
     /**
@@ -300,10 +236,10 @@ public class SunmiPrintHelper {
      *  in the Api.
      */
     public void printText(String content, float size, boolean isBold, boolean isUnderLine,
-                          String typeface) {
-        handleNoService()
+                          String typeface) throws Exception {
 
         try {
+            checkPrinterServiceAvailability();
             try {
                 sunmiPrinterService.setPrinterStyle(WoyouConsts.ENABLE_BOLD, isBold?
                         WoyouConsts.ENABLE:WoyouConsts.DISABLE);
@@ -325,8 +261,9 @@ public class SunmiPrintHelper {
                 }
             }
             sunmiPrinterService.printTextWithFont(content, typeface, size, null);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
 
     }
@@ -334,50 +271,50 @@ public class SunmiPrintHelper {
     /**
      * print Bar Code
      */
-    public void printBarCode(String data, int symbology, int height, int width, int textposition) {
-        handleNoService()
-
+    public void printBarCode(String data, int symbology, int height, int width, int textposition) throws Exception {
         try {
+            checkPrinterServiceAvailability();
             sunmiPrinterService.printBarCode(data, symbology, height, width, textposition, null);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
     /**
      * print Qr Code
      */
-    public void printQr(String data, int modulesize, int errorlevel) {
-        handleNoService()
-
+    public void printQr(String data, int modulesize, int errorlevel) throws Exception {
         try {
+            checkPrinterServiceAvailability();
             sunmiPrinterService.printQRCode(data, modulesize, errorlevel, null);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
     /**
      * Print a row of a table
      */
-    public void printTable(String[] txts, int[] width, int[] align) {
-        handleNoService()
-
+    public void printTable(String[] txts, int[] width, int[] align) throws Exception {
         try {
+            checkPrinterServiceAvailability();
             sunmiPrinterService.printColumnsString(txts, width, align, null);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
-    public void printBitmap(Bitmap bitmap) {
-        handleNoService()
-
+    public void printBitmap(Bitmap bitmap) throws Exception {
         try {
+            checkPrinterServiceAvailability();
             sunmiPrinterService.printBitmap(bitmap, null);
             sunmiPrinterService.printText("\n\n\n\n", null);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
@@ -385,10 +322,10 @@ public class SunmiPrintHelper {
      * Gets whether the current printer is in black mark mode
      */
     public boolean isBlackLabelMode(){
-        handleNoService()
         try {
+            checkPrinterServiceAvailability();
             return sunmiPrinterService.getPrinterMode() == 1;
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -397,10 +334,10 @@ public class SunmiPrintHelper {
      * Gets whether the current printer is in label-printing mode
      */
     public boolean isLabelMode(){
-        handleNoService()
         try {
+            checkPrinterServiceAvailability();
             return sunmiPrinterService.getPrinterMode() == 2;
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -412,14 +349,9 @@ public class SunmiPrintHelper {
      *
      *  Reference to https://docs.sunmi.com/general-function-modules/external-device-debug/cash-box-driver/}
      */
-    public void openCashBox(){
-        handleNoService()
-
-        try {
-            sunmiPrinterService.openDrawer(null);
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-        }
+    public void openCashBox() throws Exception {
+        checkPrinterServiceAvailability();
+        sunmiPrinterService.openDrawer(null);
     }
 
     /**
@@ -429,14 +361,9 @@ public class SunmiPrintHelper {
      *             3 —— Extinguish screen
      *             4 —— Clear screen contents
      */
-    public void controlLcd(int flag){
-        handleNoService()
-
-        try {
-            sunmiPrinterService.sendLCDCommand(flag);
-        } catch (RemoteException e) {
-            handleRemoteException(e);
-        }
+    public void controlLcd(int flag) throws Exception {
+        checkPrinterServiceAvailability();
+        sunmiPrinterService.sendLCDCommand(flag);
     }
 
     /**
@@ -444,18 +371,18 @@ public class SunmiPrintHelper {
      * sendLCDFillString(txt, size, fill, callback)
      * Since the screen pixel height is 40, the font should not exceed 40
      */
-    public void sendTextToLcd(){
-        handleNoService()
-
+    public void sendTextToLcd() throws Exception {
         try {
+            checkPrinterServiceAvailability();
             sunmiPrinterService.sendLCDFillString("SUNMI", 16, true, new InnerLcdCallback() {
                 @Override
                 public void onRunResult(boolean show) throws RemoteException {
                     //TODO handle result
                 }
             });
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
 
     }
@@ -463,10 +390,9 @@ public class SunmiPrintHelper {
     /**
      * Display two lines and one empty line in the middle
      */
-    public void sendTextsToLcd(){
-        handleNoService()
-
+    public void sendTextsToLcd() throws Exception {
         try {
+            checkPrinterServiceAvailability();
             String[] texts = {"SUNMI", null, "SUNMI"};
             int[] align = {2, 1, 2};
             sunmiPrinterService.sendLCDMultiString(texts, align, new InnerLcdCallback() {
@@ -475,8 +401,9 @@ public class SunmiPrintHelper {
                     //TODO handle result
                 }
             });
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
 
     }
@@ -484,18 +411,18 @@ public class SunmiPrintHelper {
     /**
      * Display one 128x40 pixels and opaque picture
      */
-    public void sendPicToLcd(Bitmap pic){
-        handleNoService()
-
+    public void sendPicToLcd(Bitmap pic) throws Exception {
         try {
+            checkPrinterServiceAvailability();
             sunmiPrinterService.sendLCDBitmap(pic, new InnerLcdCallback() {
                 @Override
                 public void onRunResult(boolean show) throws RemoteException {
                     //TODO handle result
                 }
             });
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
 
     }
@@ -504,10 +431,10 @@ public class SunmiPrintHelper {
      * Used to report the real-time query status of the printer, which can be used before each
      * printing
      */
-    public void showPrinterStatus(Context context){
-        handleNoService()
+    public void showPrinterStatus(Context context) throws Exception {
         String result = "Interface is too low to implement interface";
         try {
+            checkPrinterServiceAvailability();
             int res = sunmiPrinterService.updatePrinterState();
             switch (res){
                 case 1:
@@ -543,8 +470,9 @@ public class SunmiPrintHelper {
                 default:
                     break;
             }
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
         Toast.makeText(context, result, Toast.LENGTH_LONG).show();
     }
@@ -557,12 +485,12 @@ public class SunmiPrintHelper {
      * 打印单张标签后为了方便用户撕纸可调用labelOutput,将标签纸推出纸舱口
      */
     public void printOneLabel() {
-        handleNoService()
         try {
+            checkPrinterServiceAvailability();
             sunmiPrinterService.labelLocate();
             printLabelContent();
             sunmiPrinterService.labelOutput();
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -575,14 +503,14 @@ public class SunmiPrintHelper {
      * 打印多张标签后根据需求选择是否推出标签纸到纸舱口
      */
     public void printMultiLabel(int num) {
-        handleNoService()
         try {
+            checkPrinterServiceAvailability();
             for(int i = 0; i < num; i++){
                 sunmiPrinterService.labelLocate();
                 printLabelContent();
             }
             sunmiPrinterService.labelOutput();
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

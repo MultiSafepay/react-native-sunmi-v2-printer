@@ -78,9 +78,14 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void printerInit(final Promise promise) {
-        SunmiPrintHelper.getInstance().initSunmiPrinterService(reactApplicationContext);
-        SunmiPrintHelper.getInstance().initPrinter();
-        promise.resolve(null);
+        try {
+            SunmiPrintHelper.getInstance().initSunmiPrinterService(reactApplicationContext);
+            SunmiPrintHelper.getInstance().initPrinter();
+            promise.resolve(null);
+        } catch (Exception e) {
+            Log.i(TAG, "ERROR: " + e.getMessage());
+            promise.reject("0", e.getMessage());
+        }
     }
 
     @ReactMethod
@@ -167,13 +172,12 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void openCashDrawer(final Promise promise) {
-
         try {
-            sunmiPrinterService.openDrawer(null);
+            SunmiPrintHelper.getInstance().openCashBox();
             promise.resolve(null);
 
-        } catch (RemoteException e) {
-            handleRemoteException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
             promise.reject("0", e.getMessage());
 
         }
@@ -188,20 +192,5 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
             e.printStackTrace();
             promise.reject("0", e.getMessage());
         }
-    }
-
-    private void handleRemoteException(RemoteException e){
-        //TODO process when get one exception
-    }
-
-    private void checkSunmiPrinterService(SunmiPrinterService service){
-        boolean ret = false;
-        try {
-            ret = InnerPrinterManager.getInstance().hasPrinter(service);
-        } catch (InnerPrinterException e) {
-            e.printStackTrace();
-            promise.reject("0", e.getMessage());
-        }
-        sunmiPrinter = ret?FoundSunmiPrinter:NoSunmiPrinter;
     }
 }
