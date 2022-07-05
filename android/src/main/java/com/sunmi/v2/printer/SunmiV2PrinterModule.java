@@ -79,7 +79,11 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void printerInit(final Promise promise) {
         try {
-            SunmiPrintHelper.getInstance().initSunmiPrinterService(reactApplicationContext);
+            if (!SunmiPrintHelper.getInstance().hasSunmiPrinterService())
+            {
+                // Initialize only when service is not available
+                SunmiPrintHelper.getInstance().initSunmiPrinterService(reactApplicationContext);
+            }
             SunmiPrintHelper.getInstance().initPrinter();
             promise.resolve(null);
         } catch (Exception e) {

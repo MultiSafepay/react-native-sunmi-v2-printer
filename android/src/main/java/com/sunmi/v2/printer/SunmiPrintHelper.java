@@ -65,6 +65,10 @@ public class SunmiPrintHelper {
         }
     };
 
+    public boolean hasSunmiPrinterService() {
+        return sunmiPrinterService != null;
+    }
+
     /**
      * init sunmi print service
      */
@@ -83,7 +87,7 @@ public class SunmiPrintHelper {
     /**
      *  deInit sunmi print service
      */
-    public void deInitSunmiPrinterService(Context context){
+    public void deInitSunmiPrinterService(Context context) throws Exception {
         try {
             if(sunmiPrinterService != null){
                 InnerPrinterManager.getInstance().unBindService(context, innerPrinterCallback);
@@ -92,6 +96,7 @@ public class SunmiPrintHelper {
             }
         } catch (InnerPrinterException e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
