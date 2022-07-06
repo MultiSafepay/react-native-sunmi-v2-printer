@@ -115,7 +115,7 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getHasPrinter(final Promise p) {
         try {
-            p.resolve(SunmiPrintHelper.getInstance().checkSunmiPrinterService() === SunmiPrintHelper.FoundSunmiPrinter);
+            p.resolve(SunmiPrintHelper.getInstance().hasSunmiPrinterService());
         } catch (Exception e) {
             Log.i(TAG, "ERROR: " + e.getMessage());
             p.reject("0", e.getMessage());
