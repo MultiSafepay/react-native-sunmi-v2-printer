@@ -65,22 +65,28 @@ public class SunmiPrintHelper {
         }
     };
 
-    public boolean hasSunmiPrinterService() {
+    public boolean printerServiceDidInit() {
         return sunmiPrinterService != null;
+    }
+    public boolean printerDidBind() {
+        return sunmiPrinter == FoundSunmiPrinter;
     }
 
     /**
      * init sunmi print service
      */
-    public void initSunmiPrinterService(Context context){
+    public void initSunmiPrinterService(Context context) throws Exception {
         try {
             boolean ret =  InnerPrinterManager.getInstance().bindService(context,
                     innerPrinterCallback);
-            if(!ret){
+            if (!ret) {
                 sunmiPrinter = NoSunmiPrinter;
+            } else {
+                sunmiPrinter = FoundSunmiPrinter;
             }
         } catch (InnerPrinterException e) {
             e.printStackTrace();
+            throw e;
         }
     }
 

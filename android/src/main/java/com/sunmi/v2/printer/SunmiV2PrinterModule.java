@@ -77,18 +77,44 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void printerInit(final Promise promise) {
+    public void initBind(final Promise promise) {
         try {
-            if (!SunmiPrintHelper.getInstance().hasSunmiPrinterService())
-            {
-                // Initialize only when service is not available
-                SunmiPrintHelper.getInstance().initSunmiPrinterService(reactApplicationContext);
-            }
+            SunmiPrintHelper.getInstance().initSunmiPrinterService(reactApplicationContext);
+            promise.resolve(null);
+        } catch (Exception e) {
+            Log.i(TAG, "ERROR: " + e.getMessage());
+            promise.reject("0", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void getPrinterDidBind(final Promise p) {
+        try {
+            p.resolve(SunmiPrintHelper.getInstance().printerDidBind());
+        } catch (Exception e) {
+            Log.i(TAG, "ERROR: " + e.getMessage());
+            p.reject("0", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void initPrinter(final Promise promise) {
+        try {
             SunmiPrintHelper.getInstance().initPrinter();
             promise.resolve(null);
         } catch (Exception e) {
             Log.i(TAG, "ERROR: " + e.getMessage());
             promise.reject("0", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void getPrinterServiceDidInit(final Promise p) {
+        try {
+            p.resolve(SunmiPrintHelper.getInstance().printerServiceDidInit());
+        } catch (Exception e) {
+            Log.i(TAG, "ERROR: " + e.getMessage());
+            p.reject("0", e.getMessage());
         }
     }
 
@@ -106,16 +132,6 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
     public void getPrinterPaperSize(final Promise p) {
         try {
             p.resolve(SunmiPrintHelper.getInstance().getPrinterPaper());
-        } catch (Exception e) {
-            Log.i(TAG, "ERROR: " + e.getMessage());
-            p.reject("0", e.getMessage());
-        }
-    }
-
-    @ReactMethod
-    public void getHasPrinter(final Promise p) {
-        try {
-            p.resolve(SunmiPrintHelper.getInstance().hasSunmiPrinterService());
         } catch (Exception e) {
             Log.i(TAG, "ERROR: " + e.getMessage());
             p.reject("0", e.getMessage());
