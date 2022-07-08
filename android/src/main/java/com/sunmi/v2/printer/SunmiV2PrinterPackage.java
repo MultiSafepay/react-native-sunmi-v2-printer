@@ -21,7 +21,7 @@ public class SunmiV2PrinterPackage implements ReactPackage {
     List<NativeModule> modules = new ArrayList<>();
 
     modules.add(new SunmiV2PrinterModule(reactContext));
-    modules.add(new CashDrawer(reactContext));
+    // modules.add(new CashDrawer(reactContext));
 
     return modules;
   }

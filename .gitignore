@@ -8,9 +8,8 @@
 *.log
 out
 gen
-example/node_modules
-example/android/build
-example/android/app/build
-example/android/.gradle
-example/ios/Pods
+node_modules
 android/build
+android/.gradle/
+android/app/build/
+android/local.properties
