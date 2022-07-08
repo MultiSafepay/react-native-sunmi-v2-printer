@@ -23,8 +23,56 @@ import android.content.ServiceConnection;
 import android.content.IntentFilter;
 
 
+import com.sunmi.peripheral.printer.InnerPrinterCallback;
 import com.sunmi.peripheral.printer.InnerPrinterException;
 import com.sunmi.peripheral.printer.InnerPrinterManager;
+import com.sunmi.peripheral.printer.InnerResultCallback;
+import com.sunmi.peripheral.printer.SunmiPrinterService;
+
+class MyResultCallback extends InnerResultCallback {
+    private com.facebook.react.bridge.Promise myPromise;
+    private String myTag = "MyResultCallback";
+
+    @Override
+    public void onRunResult(boolean isSuccess) throws RemoteException {
+        Log.i(myTag, "onRunResult: " + isSuccess);
+        if (myPromise != null) {
+            myPromise.resolve(isSuccess);
+            myPromise = null;
+        }
+    }
+
+    @Override
+    public void onReturnString(String result) throws RemoteException {
+        Log.i(myTag, "onReturnString: " + result);
+        if (myPromise != null) {
+            myPromise.resolve(result);
+            myPromise = null;
+        }
+    }
+
+    @Override
+    public void onRaiseException(int code, String msg) throws RemoteException {
+        Log.i(myTag, "onRaiseException: " + msg);
+        if (myPromise != null) {
+            myPromise.reject(String.valueOf(code), msg);
+            myPromise = null;
+        }
+    }
+
+    @Override
+    public void onPrintResult(int code, String msg) throws RemoteException {
+        Log.i(myTag, "onPrintResult: " + msg);
+        if (myPromise != null) {
+            myPromise.resolve(msg);
+            myPromise = null;
+        }
+    }
+
+    public void setPromise(Promise promise) {
+        this.myPromise = promise;
+    }
+}
 
 public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
     public static ReactApplicationContext reactApplicationContext = null;
@@ -36,6 +84,8 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
     public static int CheckSunmiPrinter = 0x00000001;
     public static int FoundSunmiPrinter = 0x00000002;
     public static int LostSunmiPrinter = 0x00000003;
+
+    private MyResultCallback innerResultCallback = new MyResultCallback();
 
     /**
      *  sunmiPrinter means checking the printer connection status
@@ -139,6 +189,59 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void getPrinterSpecifications(final Promise p) {
+        innerResultCallback.setPromise(p);
+        try {
+            SunmiPrintHelper.getInstance().getPrinterHead(innerResultCallback);
+        } catch (Exception e) {
+            Log.i(TAG, "ERROR: " + e.getMessage());
+            p.reject("0", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void getPrinterDensity(final Promise p) {
+        try {
+            p.resolve(SunmiPrintHelper.getInstance().getPrinterDensity());
+        } catch (Exception e) {
+            Log.i(TAG, "ERROR: " + e.getMessage());
+            p.reject("0", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void getServiceVersion(final Promise p) {
+        try {
+            p.resolve(SunmiPrintHelper.getInstance().getServiceVersion());
+        } catch (Exception e) {
+            Log.i(TAG, "ERROR: " + e.getMessage());
+            p.reject("0", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void getPrinterDistance(final Promise p) {
+        innerResultCallback.setPromise(p);
+        try {
+            SunmiPrintHelper.getInstance().getPrinterDistance(innerResultCallback);
+        } catch (Exception e) {
+            Log.i(TAG, "ERROR: " + e.getMessage());
+            p.reject("0", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void showPrinterStatusToast(final Promise p) {
+        try {
+            SunmiPrintHelper.getInstance().showPrinterStatus(reactApplicationContext);
+            p.resolve(null);
+        } catch (Exception e) {
+            Log.i(TAG, "ERROR: " + e.getMessage());
+            p.reject("0", e.getMessage());
+        }
+    }
+
+    @ReactMethod
     public void sendRAWData(String base64EncriptedData, final Promise promise) {
         try {
             final byte[] data = Base64.decode(base64EncriptedData, Base64.DEFAULT);
@@ -179,10 +282,9 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void printOriginalText(String text, final Promise promise) {
+    public void printText(String text, final Promise promise) {
         try {
-            final int size = text.length();
-            SunmiPrintHelper.getInstance().printText(text, size, false, false, null);    
+            SunmiPrintHelper.getInstance().printText(text);
             promise.resolve(null);
         } catch (Exception e) {
             e.printStackTrace();

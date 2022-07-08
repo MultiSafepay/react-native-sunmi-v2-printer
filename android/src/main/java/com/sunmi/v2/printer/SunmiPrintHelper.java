@@ -203,6 +203,22 @@ public class SunmiPrintHelper {
     }
 
     /**
+     * Get printer densite
+     */
+    public int getPrinterDensity() throws Exception {
+        checkPrinterServiceAvailability();
+        return sunmiPrinterService.getPrinterDensity();
+    }
+
+    /**
+     * Get service version
+     */
+    public String getServiceVersion() throws Exception {
+        checkPrinterServiceAvailability();
+        return sunmiPrinterService.getServiceVersion();
+    }
+
+    /**
      * Get paper specifications
      */
     public void getPrinterHead(InnerResultCallback callback) throws Exception {
@@ -237,41 +253,10 @@ public class SunmiPrintHelper {
         sunmiPrinterService.autoOutPaper(null);
     }
 
-    /**
-     * print text
-     * setPrinterStyle:Api require V4.2.22 or later, So use esc cmd instead when not supported
-     *  More settings reference documentation {@link WoyouConsts}
-     * printTextWithFont:
-     *  Custom fonts require V4.14.0 or later!
-     *  You can put the custom font in the 'assets' directory and Specify the font name parameters
-     *  in the Api.
-     */
-    public void printText(String content, float size, boolean isBold, boolean isUnderLine,
-                          String typeface) throws Exception {
-
+    public void printText(String content) throws Exception {
         try {
             checkPrinterServiceAvailability();
-            try {
-                sunmiPrinterService.setPrinterStyle(WoyouConsts.ENABLE_BOLD, isBold?
-                        WoyouConsts.ENABLE:WoyouConsts.DISABLE);
-            } catch (RemoteException e) {
-                if (isBold) {
-                    sunmiPrinterService.sendRAWData(ESCUtil.boldOn(), null);
-                } else {
-                    sunmiPrinterService.sendRAWData(ESCUtil.boldOff(), null);
-                }
-            }
-            try {
-                sunmiPrinterService.setPrinterStyle(WoyouConsts.ENABLE_UNDERLINE, isUnderLine?
-                        WoyouConsts.ENABLE:WoyouConsts.DISABLE);
-            } catch (RemoteException e) {
-                if (isUnderLine) {
-                    sunmiPrinterService.sendRAWData(ESCUtil.underlineWithOneDotWidthOn(), null);
-                } else {
-                    sunmiPrinterService.sendRAWData(ESCUtil.underlineOff(), null);
-                }
-            }
-            sunmiPrinterService.printTextWithFont(content, typeface, size, null);
+            sunmiPrinterService.printText(content, null);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
