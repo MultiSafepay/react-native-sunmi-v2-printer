@@ -12,7 +12,7 @@ export declare const SunmiV2Printer: {
     width: number,
     height: number
   ) => Promise<void>;
-  printOriginalText: (text: string, typeface: string) => Promise<void>;
+  printOriginalText: (text: string) => Promise<void>;
   clearBuffer: () => Promise<void>;
   openCashDrawer: () => Promise<void>;
   cutPaper: () => Promise<void>;
