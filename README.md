@@ -1,93 +1,35 @@
-
 # react-native-sunmi-v2-printer
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE) 
+Sunmi V2 Printer for React-Native
 
-## SUNMI V2 Printer for React-Native
+# API documentation
 
-This project is forked from [kev-ac/react-native-sunmi-v2-printer](https://github.com/kev-ac/react-native-sunmi-v2-printer).
+- [Documentation for the main branch](https://github.com/expo/expo/blob/main/docs/pages/versions/unversioned/sdk/react-native-sunmi-v2-printer.md)
+- [Documentation for the latest stable release](https://docs.expo.dev/versions/latest/sdk/react-native-sunmi-v2-printer/)
 
-Offical Demos refer: https://github.com/shangmisunmi/SunmiPrinterDemo
+# Installation in managed Expo projects
 
-## Installation
+For [managed](https://docs.expo.dev/versions/latest/introduction/managed-vs-bare/) Expo projects, please follow the installation instructions in the [API documentation for the latest stable release](#api-documentation). If you follow the link and there is no documentation available then this library is not yet usable within managed projects &mdash; it is likely to be included in an upcoming Expo SDK release.
 
-**Step 1.**
+# Installation in bare React Native projects
 
-Install from source
+For bare React Native projects, you must ensure that you have [installed and configured the `expo` package](https://docs.expo.dev/bare/installing-expo-modules/) before continuing.
 
-```bash
-npm install https://github.com/syumai/react-native-sunmi-v2-printer.git --save
-yarn add https://github.com/syumai/react-native-sunmi-v2-printer.git --save
+### Add the package to your npm dependencies
+
+```
+npm install react-native-sunmi-v2-printer
 ```
 
-**Step 2:** (For React-Native < 0.60)
+### Configure for iOS
 
-Links this plugin to your project.
+Run `npx pod-install` after installing the npm package.
 
-```bash
-react-native link react-native-sunmi-v2-printer
-```
 
-or you may need to link manually
+### Configure for Android
 
-* modify settings.gradle
 
-```javascript
-include ':react-native-sunmi-v2-printer'
-project(':react-native-sunmi-v2-printer').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sunmi-v2-printer/android')
-```
 
-* modify  app/build.gradle,add dependenceie：
+# Contributing
 
-```javascript
-compile project(':react-native-sunmi-v2-printer')
-```
-
-* adds package references to  MainPackage.java
-
-```java
-import com.sunmi.v2.printer.SunmiV2PrinterPackage;
-...
-
- @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-          new SunmiV2PrinterPackage()
-      );
-    }
-```
-
-**Step 3:**
-
-Import in React-Native:
-
-```javascript
-import SunmiV2Printer from 'react-native-sunmi-v2-printer';
-```
-
-## API
-
-### Constants
-
-| Name | Type| Description |
-|:-----:|:-----:|:-----------:|
-| Constants | string | Printer's status |
-| hasPrinter | boolean | Is printer available |
-| printerVersion | string | Printer's version |
-| printerSerialNo | string | Printer's serial number |
-| printerModal | string | Printer's model |
-
-### Printer Status
-
-|  Name | Description |
-|:-----:|:-----------:|
-| OUT_OF_PAPER_ACTION | Printer of paper |
-| ERROR_ACTION | Printing error |
-| NORMAL_ACTION | Printing normal |
-| COVER_OPEN_ACTION | Printer's cover has open |
-| COVER_ERROR_ACTION | Printer's cover is unusal |
-| KNIFE_ERROR_1_ACTION | 切刀异常1－卡切刀 |
-| KNIFE_ERROR_2_ACTION | 切刀异常2－切刀修复 |
-| OVER_HEATING_ACITON | Printer is overheat |
-| FIRMWARE_UPDATING_ACITON | Upgrade printer's firmware |
+Contributions are very welcome! Please refer to guidelines described in the [contributing guide]( https://github.com/expo/expo#contributing).

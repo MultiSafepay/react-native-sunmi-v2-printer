@@ -1,4 +1,11 @@
-# Created by .ignore support plugin (hsz.mobi)
-.idea
-example
-android/build
+# Exclude all top-level hidden directories by convention
+/.*/
+
+__mocks__
+__tests__
+
+/babel.config.js
+/android/src/androidTest/
+/android/src/test/
+/android/build/
+/example/
