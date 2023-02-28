@@ -1,8 +1,5 @@
 {
-  "platforms": ["ios", "android", "web"],
-  "ios": {
-    "modules": ["ReactNativeSunmiV2PrinterModule"]
-  },
+  "platforms": ["android"],
   "android": {
     "modules": ["expo.modules.sunmiv2printer.ReactNativeSunmiV2PrinterModule"]
   }

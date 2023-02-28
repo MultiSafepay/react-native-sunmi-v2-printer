@@ -1,4 +1,5 @@
-package com.sunmi.v2.printer;
+package expo.modules.sunmiv2printer;
+
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;

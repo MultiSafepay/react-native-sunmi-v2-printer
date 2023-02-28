@@ -1,4 +1,5 @@
 package com.sunmi.v2.printer;
+// TODO delete
 
 import android.content.BroadcastReceiver;
 
