@@ -96,9 +96,8 @@ class ReactNativeSunmiV2PrinterModule : Module() {
   
   private val helper = SunmiPrintHelper();
   private val TAG = "SunmiV2PrinterModule"
-  // TODO Unresolved reference: MyResultCallback
   private val innerResultCallback = MyResultCallback()
-  private var bitMapUtils: BitmapUtils? = null
+  // private var bitMapUtils: BitmapUtils? = null
 
 
   // Each module class must implement the definition function. The definition consists of components
@@ -109,7 +108,8 @@ class ReactNativeSunmiV2PrinterModule : Module() {
     // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
     // The module will be accessible from `requireNativeModule('ReactNativeSunmiV2Printer')` in JavaScript.
     Name("ReactNativeSunmiV2Printer")
-    bitMapUtils = BitmapUtils(appContext.reactContext);
+    // TODO fails here
+    // bitMapUtils = BitmapUtils(appContext.reactContext);
 
     // // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
     // Constants(
@@ -151,7 +151,11 @@ class ReactNativeSunmiV2PrinterModule : Module() {
       print("// TODO check: initBind");
 
       try {
-        return@Function helper.initSunmiPrinterService(appContext.reactContext)
+        if(appContext != null){
+          return@Function helper.initSunmiPrinterService(appContext.reactContext)
+        } else {
+          return@Function "no context"
+        }
       } catch (e: Exception) {
         print(TAG);
         print( "ERROR:");
@@ -316,9 +320,12 @@ class ReactNativeSunmiV2PrinterModule : Module() {
       try {
         val decoded: ByteArray = Base64.decode(data, Base64.DEFAULT)
         // TODO put inside if
-        val bitMap: Bitmap = bitMapUtils!!.decodeBitmap(decoded, width, height)
-
-        return@Function helper.printBitmap(bitMap)
+        if(appContext != null){
+          val bitMap: Bitmap = BitmapUtils(appContext.reactContext)!!.decodeBitmap(decoded, width, height)        
+          return@Function helper.printBitmap(bitMap)
+        } else {
+          return@Function "no context"
+        }
       } catch (e: Exception) {
         print(TAG);
         print( "ERROR:");
