@@ -1,4 +1,4 @@
-import ReactNativeSunmiV2PrinterModule from "./ReactNativeSunmiV2PrinterModule";
+import SunmiV2PrinterModule from "./SunmiV2PrinterModule";
 
 /*
  *  Types
@@ -18,112 +18,106 @@ const alignmentTranslate = {
  *  functions
  */
 
-export async function getTheme(): Promise<string> {
+async function getTheme(): Promise<string> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.getTheme();
+  return SunmiV2PrinterModule.getTheme();
 }
 
-export async function initBind(): Promise<void> {
+async function initBind(): Promise<void> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.initBind();
+  return SunmiV2PrinterModule.initBind();
 }
 
-export async function getPrinterDidBind(): Promise<boolean> {
+async function getPrinterDidBind(): Promise<boolean> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.getPrinterDidBind();
+  return SunmiV2PrinterModule.getPrinterDidBind();
 }
 
-export async function initPrinter(): Promise<void> {
+async function initPrinter(): Promise<void> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.initPrinter();
+  return SunmiV2PrinterModule.initPrinter();
 }
 
-export async function getPrinterServiceDidInit(): Promise<boolean> {
+async function getPrinterServiceDidInit(): Promise<boolean> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.getPrinterServiceDidInit();
+  return SunmiV2PrinterModule.getPrinterServiceDidInit();
 }
 
-export async function getPrinterVersion(): Promise<string> {
+async function getPrinterVersion(): Promise<string> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.getPrinterVersion();
+  return SunmiV2PrinterModule.getPrinterVersion();
 }
 
-export async function getPrinterPaperSize(): Promise<PaperSizeOptions> {
+async function getPrinterPaperSize(): Promise<PaperSizeOptions> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.getPrinterPaperSize();
+  return SunmiV2PrinterModule.getPrinterPaperSize();
 }
 
-export async function getPrinterSpecifications(): Promise<string> {
+async function getPrinterSpecifications(): Promise<string> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.getPrinterSpecifications();
+  return SunmiV2PrinterModule.getPrinterSpecifications();
 }
 
-export async function getPrinterDensity(): Promise<number> {
+async function getPrinterDensity(): Promise<number> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.getPrinterDensity();
+  return SunmiV2PrinterModule.getPrinterDensity();
 }
 
-export async function getServiceVersion(): Promise<string> {
+async function getServiceVersion(): Promise<string> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.getServiceVersion();
+  return SunmiV2PrinterModule.getServiceVersion();
 }
 
-export async function getPrinterDistance(): Promise<string> {
+async function getPrinterDistance(): Promise<string> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.getPrinterDistance();
+  return SunmiV2PrinterModule.getPrinterDistance();
 }
 
-export async function showPrinterStatusToast(): Promise<string> {
+async function showPrinterStatusToast(): Promise<string> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.showPrinterStatusToast();
+  return SunmiV2PrinterModule.showPrinterStatusToast();
 }
 
-export async function sendRAWData(base64EncriptedData: string): Promise<void> {
+async function sendRAWData(base64EncriptedData: string): Promise<void> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.sendRAWData(base64EncriptedData);
+  return SunmiV2PrinterModule.sendRAWData(base64EncriptedData);
 }
 
-export async function setAlignment(alignment: AlignmentValues): Promise<void> {
+async function setAlignment(alignment: AlignmentValues): Promise<void> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.setAlignment(
-    alignmentTranslate[alignment]
-  );
+  return SunmiV2PrinterModule.setAlignment(alignmentTranslate[alignment]);
 }
 
-export async function printBitmap(
+async function printBitmap(
   // TODO check if could be sync
   base64String: Promise<string>,
   height: number,
   width: number
 ): Promise<void> {
-  return ReactNativeSunmiV2PrinterModule.printBitmap(
-    base64String,
-    height,
-    width
-  );
+  return SunmiV2PrinterModule.printBitmap(base64String, height, width);
 }
 
-export async function printText(text: Promise<string>): Promise<void> {
+async function printText(text: Promise<string>): Promise<void> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.printText(text);
+  return SunmiV2PrinterModule.printText(text);
 }
 
-export async function clearBuffer(): Promise<void> {
+async function clearBuffer(): Promise<void> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.clearBuffer();
+  return SunmiV2PrinterModule.clearBuffer();
 }
 
-export async function openCashDrawer(): Promise<void> {
+async function openCashDrawer(): Promise<void> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.openCashDrawer();
+  return SunmiV2PrinterModule.openCashDrawer();
 }
 
-export async function cutPaper(): Promise<string> {
+async function cutPaper(): Promise<string> {
   // TODO check if could be sync
-  return ReactNativeSunmiV2PrinterModule.cutPaper();
+  return SunmiV2PrinterModule.cutPaper();
 }
 
-const SunmiV2Printer = {
+export const SunmiV2Printer = {
   // NativeModules.SunmiV2Printer
   getTheme,
   initBind,
@@ -145,29 +139,13 @@ const SunmiV2Printer = {
   openCashDrawer,
   cutPaper,
 };
-const CashDrawer = {
+
+export const CashDrawer = {
   // TODO was NativeModules.CashDrawer
 };
 
-export default { SunmiV2Printer, CashDrawer };
-
-/*
- * old template
- */
-
-// // Get the native constant value.
-// export const PI = ReactNativeSunmiV2PrinterModule.PI;
-
-// export function hello(): string {
-//   return ReactNativeSunmiV2PrinterModule.hello();
-// }
-
-// export async function setValueAsync(value: string) {
-//   return await ReactNativeSunmiV2PrinterModule.setValueAsync(value);
-// }
-
-// const emitter = new EventEmitter(ReactNativeSunmiV2PrinterModule ?? NativeModulesProxy.ReactNativeSunmiV2Printer);
-
-// export function addChangeListener(listener: (event: ChangeEventPayload) => void): Subscription {
-//   return emitter.addListener<ChangeEventPayload>('onChange', listener);
-// }
+export default {
+  NativeModule: SunmiV2PrinterModule,
+  SunmiV2Printer,
+  CashDrawer,
+};

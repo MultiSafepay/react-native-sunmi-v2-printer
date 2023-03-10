@@ -1,53 +1,84 @@
-import { useEffect } from "react";
-import { Text, View } from "react-native";
-// import ReactNativeSunmiV2Printer from "react-native-sunmi-v2-printer";
+import { FC, useEffect } from "react";
+import {
+  Pressable,
+  PressableProps,
+  ScrollView,
+  Text,
+  TextProps,
+  ViewStyle,
+} from "react-native";
+import ReactNativeSunmiV2Printer from "react-native-sunmi-v2-printer";
+
+interface ButtonProps extends PressableProps {
+  label: string;
+  style?: ViewStyle;
+}
+
+const Button: FC<ButtonProps> = ({ label, style, ...props }) => (
+  <Pressable
+    {...props}
+    style={[
+      {
+        borderRadius: 25,
+        padding: 10,
+        backgroundColor: "#338020",
+        margin: 5,
+      },
+      style,
+    ]}
+  >
+    <Text style={{ color: "white" }}>{label}</Text>
+  </Pressable>
+);
+
+const title: FC<TextProps> = ({ style, ...props }) => (
+  <Text style={[{ fontSize: 20 }, style]} />
+);
 
 export default function App() {
   useEffect(() => {
-    // console.log(
-    //   "SunmiV2Printer",
-    //   ReactNativeSunmiV2Printer.SunmiV2Printer
-    //     ? Object.keys(ReactNativeSunmiV2Printer.SunmiV2Printer)
-    //     : undefined
-    // );
-    // console.log(
-    //   "CashDrawer",
-    //   ReactNativeSunmiV2Printer.CashDrawer
-    //     ? Object.keys(ReactNativeSunmiV2Printer.CashDrawer)
-    //     : undefined
-    // );
+    console.log(
+      "ReactNativeSunmiV2Printer module ",
+      ReactNativeSunmiV2Printer?.NativeModule &&
+        Object.keys(ReactNativeSunmiV2Printer?.NativeModule)
+    );
+    console.log(
+      "ReactNativeSunmiV2Printer CashDrawer",
+      ReactNativeSunmiV2Printer?.CashDrawer &&
+        Object.keys(ReactNativeSunmiV2Printer?.CashDrawer)
+    );
+    console.log(
+      "ReactNativeSunmiV2Printer SunmiV2Printer",
+      ReactNativeSunmiV2Printer?.SunmiV2Printer &&
+        Object.keys(ReactNativeSunmiV2Printer?.SunmiV2Printer)
+    );
   }, []);
+
   return (
-    <View
-      style={{
-        flex: 1,
+    <ScrollView
+      contentContainerStyle={{
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "777",
       }}
     >
-      <Text>Theme</Text>
-    </View>
+      <Text>CashDrawer actions</Text>
+      {ReactNativeSunmiV2Printer?.CashDrawer &&
+        Object.keys(ReactNativeSunmiV2Printer?.CashDrawer).map((key) => {
+          return <Button label={key} />;
+        })}
+
+      <Text>SunmiV2Printer actions</Text>
+      {ReactNativeSunmiV2Printer?.SunmiV2Printer &&
+        Object.keys(ReactNativeSunmiV2Printer?.SunmiV2Printer).map((key) => {
+          return <Button label={key} />;
+        })}
+
+      <Text>NativeModule actions</Text>
+      {ReactNativeSunmiV2Printer?.NativeModule &&
+        Object.keys(ReactNativeSunmiV2Printer?.NativeModule).map((key) => {
+          return <Button label={key} />;
+        })}
+    </ScrollView>
   );
 }
-
-// import { StyleSheet, Text, View } from 'react-native';
-
-// import * as ReactNativeSunmiV2Printer from 'react-native-sunmi-v2-printer';
-
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>{ReactNativeSunmiV2Printer.hello()}</Text>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });

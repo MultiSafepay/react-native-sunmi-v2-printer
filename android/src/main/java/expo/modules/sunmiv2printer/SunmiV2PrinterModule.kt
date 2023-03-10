@@ -1,36 +1,19 @@
 package expo.modules.sunmiv2printer
 
-// import android.content.ComponentName;
 import android.content.BroadcastReceiver
 import android.content.Context;
 import android.content.Intent
-// import android.content.Intent;
-// import android.content.IntentFilter;
-// import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-// import android.os.Handler;
-// import android.os.IBinder;
-// import android.os.Message;
 import android.os.RemoteException;
 import android.util.Base64;
 import android.util.Log;
 
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-// import expo.modules.sunmiv2printer.SunmiV2PrinterModule.reactApplicationContext
 
-// import com.facebook.react.bridge.ReactApplicationContext;
-// import com.facebook.react.bridge.ReactContextBaseJavaModule;
-// import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Promise
 
-// import java.util.Map;
-
-// import com.sunmi.peripheral.printer.InnerPrinterCallback;
-// import com.sunmi.peripheral.printer.InnerPrinterException;
-// import com.sunmi.peripheral.printer.InnerPrinterManager;
 import com.sunmi.peripheral.printer.InnerResultCallback;
-// import com.sunmi.peripheral.printer.SunmiPrinterService;
 
 // TODO move to another file
 internal class MyResultCallback : InnerResultCallback() {
@@ -92,7 +75,7 @@ class PrinterReceiver : BroadcastReceiver() {
   }
 }
 
-class ReactNativeSunmiV2PrinterModule : Module() {
+class SunmiV2PrinterModule : Module() {
   
   private val helper = SunmiPrintHelper();
   private val TAG = "SunmiV2PrinterModule"
@@ -107,45 +90,7 @@ class ReactNativeSunmiV2PrinterModule : Module() {
     // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
     // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
     // The module will be accessible from `requireNativeModule('ReactNativeSunmiV2Printer')` in JavaScript.
-    Name("ReactNativeSunmiV2Printer")
-    // TODO fails here
-    // bitMapUtils = BitmapUtils(appContext.reactContext);
-
-    // // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
-    // Constants(
-    //   "PI" to Math.PI,
-    // )
-
-
-    // // Defines event names that the module can send to JavaScript.
-    // Events("onChange")
-
-    // // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    // Function("hello") {
-    //   "Hello world! 👋"
-    // }
-
-    // // Defines a JavaScript function that always returns a Promise and whose native code
-    // // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    // AsyncFunction("setValueAsync") { value: String ->
-    //   // Send an event to JavaScript.
-    //   sendEvent("onChange", mapOf(
-    //     "value" to value
-    //   ))
-    // }
-
-    // // Enables the module to be used as a native view. Definition components that are accepted as part of
-    // // the view definition: Prop, Events.
-    // View(ReactNativeSunmiV2PrinterView::class) {
-    //   // Defines a setter for the `name` prop.
-    //   Prop("name") { view: ReactNativeSunmiV2PrinterView, prop: String ->
-    //     println(prop)
-    //   }
-    // }
-
-    // Function("initBind") {
-    //   "Hello world! 👋"
-    // }
+    Name(TAG)
 
     Function("initBind") {  ->
       print("// TODO check: initBind");

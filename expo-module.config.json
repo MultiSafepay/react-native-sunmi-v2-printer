@@ -1,6 +1,6 @@
 {
   "platforms": ["android"],
   "android": {
-    "modules": ["expo.modules.sunmiv2printer.ReactNativeSunmiV2PrinterModule"]
+    "modules": ["expo.modules.sunmiv2printer.SunmiV2PrinterModule"]
   }
 }
