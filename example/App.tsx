@@ -65,19 +65,19 @@ export default function App() {
       <Text>CashDrawer actions</Text>
       {ReactNativeSunmiV2Printer?.CashDrawer &&
         Object.keys(ReactNativeSunmiV2Printer?.CashDrawer).map((key) => {
-          return <Button label={key} />;
+          return <Button label={key} key={key} />;
         })}
 
       <Text>SunmiV2Printer actions</Text>
       {ReactNativeSunmiV2Printer?.SunmiV2Printer &&
         Object.keys(ReactNativeSunmiV2Printer?.SunmiV2Printer).map((key) => {
-          return <Button label={key} />;
+          return <Button label={key} key={key} />;
         })}
 
       <Text>NativeModule actions</Text>
       {ReactNativeSunmiV2Printer?.NativeModule &&
         Object.keys(ReactNativeSunmiV2Printer?.NativeModule).map((key) => {
-          return <Button label={key} />;
+          return <Button label={key} key={key} />;
         })}
     </ScrollView>
   );

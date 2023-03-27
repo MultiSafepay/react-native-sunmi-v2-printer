@@ -6,7 +6,7 @@ import SunmiV2PrinterModule from "./SunmiV2PrinterModule";
 
 export type PaperSizeOptions = "58mm" | "80mm";
 
-type AlignmentValues = "left" | "center" | "right";
+export type AlignmentValues = "left" | "center" | "right";
 
 const alignmentTranslate = {
   left: 0,
@@ -17,11 +17,6 @@ const alignmentTranslate = {
 /*
  *  functions
  */
-
-async function getTheme(): Promise<string> {
-  // TODO check if could be sync
-  return SunmiV2PrinterModule.getTheme();
-}
 
 async function initBind(): Promise<void> {
   // TODO check if could be sync
@@ -90,7 +85,7 @@ async function setAlignment(alignment: AlignmentValues): Promise<void> {
 
 async function printBitmap(
   // TODO check if could be sync
-  base64String: Promise<string>,
+  base64String: string,
   height: number,
   width: number
 ): Promise<void> {
@@ -119,7 +114,6 @@ async function cutPaper(): Promise<string> {
 
 export const SunmiV2Printer = {
   // NativeModules.SunmiV2Printer
-  getTheme,
   initBind,
   getPrinterDidBind,
   initPrinter,
@@ -136,16 +130,17 @@ export const SunmiV2Printer = {
   printBitmap,
   printText,
   clearBuffer,
-  openCashDrawer,
   cutPaper,
 };
 
 export const CashDrawer = {
-  // TODO was NativeModules.CashDrawer
+  openCashDrawer,
 };
 
-export default {
-  NativeModule: SunmiV2PrinterModule,
-  SunmiV2Printer,
-  CashDrawer,
-};
+export default __DEV__
+  ? {
+      NativeModule: SunmiV2PrinterModule,
+      SunmiV2Printer,
+      CashDrawer,
+    }
+  : { SunmiV2Printer, CashDrawer };
