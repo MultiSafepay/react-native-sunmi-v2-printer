@@ -1,6 +1,6 @@
 {
   "name": "react-native-sunmi-v2-printer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Sunmi V2 Printer for React-Native",
   "main": "build/index.js",
   "types": "build/index.d.ts",

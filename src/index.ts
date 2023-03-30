@@ -19,72 +19,58 @@ const alignmentTranslate = {
  */
 
 async function initBind(): Promise<void> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.initBind();
 }
 
 async function getPrinterDidBind(): Promise<boolean> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.getPrinterDidBind();
 }
 
 async function initPrinter(): Promise<void> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.initPrinter();
 }
 
 async function getPrinterServiceDidInit(): Promise<boolean> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.getPrinterServiceDidInit();
 }
 
 async function getPrinterVersion(): Promise<string> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.getPrinterVersion();
 }
 
 async function getPrinterPaperSize(): Promise<PaperSizeOptions> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.getPrinterPaperSize();
 }
 
 async function getPrinterSpecifications(): Promise<string> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.getPrinterSpecifications();
 }
 
 async function getPrinterDensity(): Promise<number> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.getPrinterDensity();
 }
 
 async function getServiceVersion(): Promise<string> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.getServiceVersion();
 }
 
 async function getPrinterDistance(): Promise<string> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.getPrinterDistance();
 }
 
 async function showPrinterStatusToast(): Promise<string> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.showPrinterStatusToast();
 }
 
 async function sendRAWData(base64EncriptedData: string): Promise<void> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.sendRAWData(base64EncriptedData);
 }
 
 async function setAlignment(alignment: AlignmentValues): Promise<void> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.setAlignment(alignmentTranslate[alignment]);
 }
 
 async function printBitmap(
-  // TODO check if could be sync
   base64String: string,
   height: number,
   width: number
@@ -93,22 +79,18 @@ async function printBitmap(
 }
 
 async function printText(text: Promise<string>): Promise<void> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.printText(text);
 }
 
 async function clearBuffer(): Promise<void> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.clearBuffer();
 }
 
 async function openCashDrawer(): Promise<void> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.openCashDrawer();
 }
 
 async function cutPaper(): Promise<string> {
-  // TODO check if could be sync
   return SunmiV2PrinterModule.cutPaper();
 }
 
@@ -139,8 +121,8 @@ export const CashDrawer = {
 
 export default __DEV__
   ? {
-      NativeModule: SunmiV2PrinterModule,
-      SunmiV2Printer,
-      CashDrawer,
-    }
+    NativeModule: SunmiV2PrinterModule,
+    SunmiV2Printer,
+    CashDrawer,
+  }
   : { SunmiV2Printer, CashDrawer };
