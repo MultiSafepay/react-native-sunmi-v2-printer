@@ -29,195 +29,196 @@ class SunmiV2PrinterModule : Module() {
     // The module will be accessible from `requireNativeModule('SunmiV2PrinterModule')` in JavaScript.
     Name(TAG)
 
-    Function("initBind") {  ->
+    AsyncFunction("initBind") { promise: Promise ->
       Log.i(TAG, "initBind");
       try {
         if(appContext != null){
-          return@Function helper.initSunmiPrinterService(appContext.reactContext)
+          promise.resolve(helper.initSunmiPrinterService(appContext.reactContext))
         } else {
-          return@Function "no context"
+          promise.reject("no context"))
         }
       } catch (e: Exception) {
         Log.i(TAG, "initBind did fail:" + e.message);
-        return@Function  e.message
+        promise.reject(e.message)
       }
     }
 
-    Function("getPrinterDidBind") {  ->
+    AsyncFunction("getPrinterDidBind") { promise: Promise ->
       Log.i(TAG, "getPrinterDidBind");
       try {
-        return@Function helper.printerDidBind()
+        promise.resolve( helper.printerDidBind())
       } catch (e: Exception) {
         Log.i(TAG, "getPrinterDidBind did fail:" + e.message);
-        return@Function  e.message
+        promise.reject(  e.message)
       }
     }
 
-    Function("initPrinter") {  ->
+    AsyncFunction("initPrinter") { promise: Promise ->
       Log.i(TAG, "initPrinter");
       try {
-        return@Function helper.initPrinter()
+        promise.resolve( helper.initPrinter())
       } catch (e: Exception) {
         Log.i(TAG, "initPrinter did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("getPrinterServiceDidInit") {  ->
+    AsyncFunction("getPrinterServiceDidInit") { promise: Promise ->
       Log.i(TAG, "getPrinterServiceDidInit");
       try {
-        return@Function helper.printerServiceDidInit()
+        promise.resolve( helper.printerServiceDidInit())
       } catch (e: Exception) {
         Log.i(TAG, "getPrinterServiceDidInit did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("getPrinterVersion") {  ->
+
+    AsyncFunction("getPrinterVersion") { promise: Promise ->
       Log.i(TAG, "getPrinterVersion");
       try {
-        return@Function helper.printerVersion
+        promise.resolve( helper.printerVersion)
       } catch (e: Exception) {
         Log.i(TAG, "getPrinterVersion did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("getPrinterPaperSize") {  ->
+
+    AsyncFunction("getPrinterPaperSize") { promise: Promise ->
       Log.i(TAG, "getPrinterPaperSize");
       try {
-        return@Function helper.printerPaper
+        promise.resolve( helper.printerPaper)
       } catch (e: Exception) {
         Log.i(TAG, "getPrinterVersion did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("getPrinterSpecifications") {  ->
+    AsyncFunction("getPrinterSpecifications") { promise: Promise ->
       Log.i(TAG, "getPrinterSpecifications");
       try {
-        return@Function helper.getPrinterHead(innerResultCallback)
+        promise.resolve( helper.getPrinterHead(innerResultCallback))
       } catch (e: Exception) {
         Log.i(TAG, "getPrinterSpecifications did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("getPrinterDensity") {  ->
+    AsyncFunction("getPrinterDensity") { promise: Promise ->
       Log.i(TAG, "getPrinterDensity");
       try {
-        return@Function helper.printerDensity
+        promise.resolve( helper.printerDensity)
       } catch (e: Exception) {
         Log.i(TAG, "getPrinterSpecifications did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("getServiceVersion") {  ->
+    AsyncFunction("getServiceVersion") { promise: Promise ->
       Log.i(TAG, "getServiceVersion");
       try {
-        // return@Function helper.getServiceVersion()
-        return@Function helper.serviceVersion
+        promise.resolve( helper.serviceVersion)
       } catch (e: Exception) {
         Log.i(TAG, "getServiceVersion did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("getPrinterDistance") {  ->
+    AsyncFunction("getPrinterDistance") { promise: Promise ->
       Log.i(TAG, "getPrinterDistance");
       try {
-        return@Function helper.getPrinterDistance(innerResultCallback)
+        promise.resolve( helper.getPrinterDistance(innerResultCallback))
       } catch (e: Exception) {
         Log.i(TAG, "getPrinterDistance did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("showPrinterStatusToast") {  ->
+    AsyncFunction("showPrinterStatusToast") { promise: Promise ->
       Log.i(TAG, "showPrinterStatusToast");
       try {
-        return@Function helper.showPrinterStatus(appContext.reactContext)
+        promise.resolve( helper.showPrinterStatus(appContext.reactContext))
       } catch (e: Exception) {
         Log.i(TAG, "showPrinterStatusToast did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("sendRAWData") { base64EncriptedData: String ->
+    AsyncFunction("sendRAWData") { base64EncriptedData: String promise: Promise ->
       Log.i(TAG, "sendRAWData");
       try {
         val data: ByteArray = Base64.decode(base64EncriptedData, Base64.DEFAULT)
-        return@Function helper.sendRawData(data)
+        promise.resolve( helper.sendRawData(data))
       } catch (e: Exception) {
         Log.i(TAG, "sendRAWData did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("setAlignment") { alignment: Int ->
+    AsyncFunction("setAlignment") { alignment: Int promise: Promise ->
       Log.i(TAG, "sendRAWData");
       try {
-        return@Function helper.setAlign(alignment);
+        promise.resolve( helper.setAlign(alignment);)
       } catch (e: Exception) {
         Log.i(TAG, "setAlignment did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("printBitmap") { data: String , width: Int,height: Int ->
+    AsyncFunction("printBitmap") { data: String , width: Int,height: Int promise: Promise ->
       Log.i(TAG, "printBitmap");
       try {
         val decoded: ByteArray = Base64.decode(data, Base64.DEFAULT)
         if(appContext != null){
           val bitMap: Bitmap = BitmapUtils(appContext.reactContext)!!.decodeBitmap(decoded, width, height)        
-          return@Function helper.printBitmap(bitMap)
+          promise.resolve( helper.printBitmap(bitMap))
         } else {
-          return@Function "no context"
+          promise.reject( "no context")
         }
       } catch (e: Exception) {
         Log.i(TAG, "printBitmap did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("printText") { text: String ->
+    AsyncFunction("printText") { text: String promise: Promise ->
       Log.i(TAG, "printText");
       try {
-        return@Function helper.printText(text)
+        promise.resolve( helper.printText(text))
       } catch (e: Exception) {
         Log.i(TAG, "printText did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("clearBuffer") {  ->
+    AsyncFunction("clearBuffer") { promise: Promise ->
       Log.i(TAG, "clearBuffer");
       try {
-        return@Function helper.deInitSunmiPrinterService(appContext.reactContext)
+        promise.resolve( helper.deInitSunmiPrinterService(appContext.reactContext))
       } catch (e: Exception) {
         Log.i(TAG, "clearBuffer did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("openCashDrawer") {  ->
+    AsyncFunction("openCashDrawer") { promise: Promise ->
       Log.i(TAG, "openCashDrawer");
       try {
-        return@Function helper.openCashBox()
+        promise.resolve( helper.openCashBox())
       } catch (e: Exception) {
         Log.i(TAG, "openCashDrawer did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
 
-    Function("cutPaper") {  ->
+    AsyncFunction("cutPaper") { promise: Promise ->
       Log.i(TAG, "cutPaper");
       try {
-        return@Function helper.cutpaper()
+        promise.resolve( helper.cutpaper())
       } catch (e: Exception) {
         Log.i(TAG, "cutPaper did fail:" + e.message);
-        return@Function  e.message
+        promise.reject( e.message)
       }
     }
   }
