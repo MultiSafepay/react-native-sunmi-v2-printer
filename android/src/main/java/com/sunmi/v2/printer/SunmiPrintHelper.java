@@ -201,6 +201,24 @@ public class SunmiPrintHelper {
         checkPrinterServiceAvailability();
         return sunmiPrinterService.getPrinterPaper() == 1? "58mm" : "80mm";
     }
+    /**
+     * Get printer status
+     */
+    public int getPrinterStatus() throws Exception {
+        checkPrinterServiceAvailability();
+        // 1 → Printer is under normal operation
+        // 2 → Printer is under preparation
+        // 3 → Communication is abnormal
+        // 4 → Out of paper
+        // 5 → Overheated
+        // 6 → Cover is open
+        // 7 → Cutter error
+        // 8 → Cutter recovered
+        // 9 → Black mark not detected
+        // 505 → Printer not detected
+        // 507 → Printer firmware 
+        return sunmiPrinterService.updatePrinterState();
+    }
 
     /**
      * Get printer densite
