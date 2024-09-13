@@ -169,6 +169,16 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void getPrinterStatus(final Promise p) {
+         try {
+             p.resolve(SunmiPrintHelper.getInstance().getPrinterStatus());
+         } catch (Exception e) {
+             Log.i(TAG, "ERROR: " + e.getMessage());
+             p.reject("0", e.getMessage());
+         }
+    }
+
+    @ReactMethod
     public void getPrinterVersion(final Promise p) {
          try {
              p.resolve(SunmiPrintHelper.getInstance().getPrinterVersion());
