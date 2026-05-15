@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -27,12 +27,11 @@ android {
 
 repositories {
     google()
-    jcenter()
     mavenCentral()
 }
 
 dependencies {
     implementation 'com.facebook.react:react-native:+'
     implementation "com.google.zxing:core:3.3.0"
-    implementation 'com.sunmi:printerlibrary:1.0.23'
+    implementation 'com.sunmi:printerlibrary:1.0.24'
 }

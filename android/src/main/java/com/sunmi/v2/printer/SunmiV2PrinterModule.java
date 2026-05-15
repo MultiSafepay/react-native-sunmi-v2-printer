@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.IntentFilter;
 
-
 import com.sunmi.peripheral.printer.InnerPrinterCallback;
 import com.sunmi.peripheral.printer.InnerPrinterException;
 import com.sunmi.peripheral.printer.InnerPrinterManager;
@@ -141,6 +140,16 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
     public void getPrinterDidBind(final Promise p) {
         try {
             p.resolve(SunmiPrintHelper.getInstance().printerDidBind());
+        } catch (Exception e) {
+            Log.i(TAG, "ERROR: " + e.getMessage());
+            p.reject("0", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void isInternalPrinterAvailable(final Promise p) {
+        try {
+            p.resolve(SunmiPrintHelper.getInstance().isInternalPrinterAvailable());
         } catch (Exception e) {
             Log.i(TAG, "ERROR: " + e.getMessage());
             p.reject("0", e.getMessage());
