@@ -176,6 +176,13 @@ public class SunmiPrintHelper {
     }
 
     /**
+     * Partial cut via ESC/POS command for devices/cutters that support it.
+     */
+    public void cutpaperPartial() throws Exception {
+        sendRawData(BytesUtil.PartialCutPaper());
+    }
+
+    /**
      *  Initialize the printer
      *  All style settings will be restored to default
      */

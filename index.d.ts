@@ -21,6 +21,7 @@ export declare const SunmiV2Printer: {
   clearBuffer: () => Promise<void>;
   openCashDrawer: () => Promise<void>;
   cutPaper: () => Promise<void>;
+  cutPaperPartial: () => Promise<void>;
   getPrinterStatus: () => Promise<
     1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 505 | 507
   >;
