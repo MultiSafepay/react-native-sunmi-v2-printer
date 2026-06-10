@@ -284,6 +284,16 @@ public class BytesUtil {
 																	// 66D 0D
 		return returnText;
 	}
+
+	public static byte[] PartialCutPaper() {
+		// from https://file.cdn.sunmi.com/SUNMIDOCS/SunmiPrinter-Developer-Docs-1-1.pdf
+//		byte[] returnText = {0x20,0x0A, 0x1D, 0x56, 0x41, 0x00 }; // 切纸； GS V
+																	// 66D 0D
+
+		byte[] returnText = {0x20,0x0A, 0x1D, 0x56, 0x42, 0x01 }; // 部分切纸； GS V
+																	// 66D 1D
+		return returnText;
+	}
 	
 	public static byte[] selfCheck(){
 		byte[] returnText = {0x1F, 0x1B, 0x1F, 0x53};

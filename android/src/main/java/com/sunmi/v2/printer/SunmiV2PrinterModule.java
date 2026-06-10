@@ -345,4 +345,15 @@ public class SunmiV2PrinterModule extends ReactContextBaseJavaModule {
             promise.reject("0", e.getMessage());
         }
     }
+
+    @ReactMethod
+    public void cutPaperPartial(final Promise promise) {
+        try {
+            SunmiPrintHelper.getInstance().cutpaperPartial();
+            promise.resolve(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            promise.reject("0", e.getMessage());
+        }
+    }
 }
