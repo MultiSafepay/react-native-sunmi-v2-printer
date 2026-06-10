@@ -68,8 +68,37 @@ public class SunmiPrintHelper {
     public boolean printerServiceDidInit() {
         return sunmiPrinterService != null;
     }
+
     public boolean printerDidBind() {
         return sunmiPrinter == FoundSunmiPrinter;
+    }
+
+    /**
+     * Runtime internal-printer availability check.
+     * This verifies service connection + hardware presence + current printer state.
+     */
+    public boolean isInternalPrinterAvailable() {
+        if (sunmiPrinterService == null) {
+            sunmiPrinter = NoSunmiPrinter;
+            return false;
+        }
+
+        try {
+            boolean hasPrinter = InnerPrinterManager.getInstance().hasPrinter(sunmiPrinterService);
+            if (!hasPrinter) {
+                sunmiPrinter = NoSunmiPrinter;
+                return false;
+            }
+
+            int state = sunmiPrinterService.updatePrinterState();
+            boolean available = state != 505; // code 505 indicates "printer not detected" https://docs.sunmi.com/en-US/cdixeghjk491/xdideghjk524
+            sunmiPrinter = available ? FoundSunmiPrinter : NoSunmiPrinter;
+            return available;
+        } catch (Exception e) {
+            Log.e("SDK-DEBUG", "Failed to verify internal printer availability", e);
+            sunmiPrinter = NoSunmiPrinter;
+            return false;
+        }
     }
 
     /**
@@ -203,20 +232,22 @@ public class SunmiPrintHelper {
     }
     /**
      * Get printer status
+     * @return
+     *  1 → Printer is under normal operation
+     *  2 → Printer is under preparation
+     *  3 → Communication is abnormal
+     *  4 → Out of paper
+     *  5 → Overheated
+     *  6 → Cover is open
+     *  7 → Cutter error
+     *  8 → Cutter recovered
+     *  9 → Black mark not detected
+     *  505 → Printer not detected
+     *  507 → Printer firmware update failed
+     * from https://docs.sunmi.com/en-US/cdixeghjk491/xdideghjk524
      */
     public int getPrinterStatus() throws Exception {
         checkPrinterServiceAvailability();
-        // 1 → Printer is under normal operation
-        // 2 → Printer is under preparation
-        // 3 → Communication is abnormal
-        // 4 → Out of paper
-        // 5 → Overheated
-        // 6 → Cover is open
-        // 7 → Cutter error
-        // 8 → Cutter recovered
-        // 9 → Black mark not detected
-        // 505 → Printer not detected
-        // 507 → Printer firmware 
         return sunmiPrinterService.updatePrinterState();
     }
 
@@ -480,6 +511,9 @@ public class SunmiPrintHelper {
                     break;
                 case 505:
                     result = "printer does not exist";
+                    break;
+                case 507:
+                    result = "printer firmware update failed";
                     break;
                 default:
                     break;

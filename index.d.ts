@@ -1,6 +1,7 @@
 export declare const SunmiV2Printer: {
   initBind: () => Promise<void>;
   getPrinterDidBind: () => Promise<boolean>;
+  isInternalPrinterAvailable: () => Promise<boolean>;
   initPrinter: () => Promise<void>;
   getPrinterServiceDidInit: () => Promise<boolean>;
   getPrinterVersion: () => Promise<string>;
@@ -14,7 +15,7 @@ export declare const SunmiV2Printer: {
   printBitmap: (
     base64String: string,
     width: number,
-    height: number
+    height: number,
   ) => Promise<void>;
   printText: (text: string) => Promise<void>;
   clearBuffer: () => Promise<void>;
